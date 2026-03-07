@@ -140,15 +140,25 @@ class CurrencyRepository extends BaseRepository
      */
     public function getStats(): array
     {
-        $total = $this->count();
-        $active = $this->countActive();
-        $inactive = $this->countInactive();
+        $row = $this->model->db
+            ->table($this->model->table)
+            ->select("
+                COUNT(*) AS total,
+                SUM(status = 'active') AS active,
+                SUM(status = 'inactive') AS inactive
+            ")
+            ->where($this->model->deletedField . ' IS NULL', null, false)
+            ->get()
+            ->getRow();
+
+        $total  = (int) ($row->total  ?? 0);
+        $active = (int) ($row->active ?? 0);
 
         return [
             'total'      => $total,
             'active'     => $active,
-            'inactive'   => $inactive,
-            'percentage' => $total > 0 ? round(($active / $total) * 100, 2) : 0
+            'inactive'   => (int) ($row->inactive ?? 0),
+            'percentage' => $total > 0 ? round(($active / $total) * 100, 2) : 0,
         ];
     }
 

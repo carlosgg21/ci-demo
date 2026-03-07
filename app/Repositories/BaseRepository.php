@@ -154,7 +154,7 @@ abstract class BaseRepository
      */
     public function count(): int
     {
-        return $this->model->countAll();
+        return $this->model->countAllResults();
     }
 
     /**

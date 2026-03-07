@@ -88,7 +88,7 @@
     <form method="get" action="<?= base_url('currencies') ?>" class="filter-group">
         <input type="hidden" name="q" value="<?= esc($search ?? '') ?>">
         <label>Estado</label>
-        <select class="form-select" name="status" @change="$el.closest('form').submit()">
+        <select class="form-select" name="status">
             <option value="">Todos</option>
             <option value="active"   <?= ($filters['status'] ?? '') === 'active'   ? 'selected' : '' ?>>Activo</option>
             <option value="inactive" <?= ($filters['status'] ?? '') === 'inactive' ? 'selected' : '' ?>>Inactivo</option>
@@ -100,7 +100,7 @@
 </div>
 
 <!-- Table -->
-<div class="card table-card">
+<div class="card table-card" x-ref="tableCard" :class="{ 'opacity-50 pe-none': loading }">
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -234,49 +234,12 @@
 
 <?= $this->section('scripts') ?>
 <script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('currencyPage', () => ({
-        drawerOpen: false,
+    /* PHP → JS config bridge (único PHP permitido aquí) */
+    window.CurrencyPageConfig = {
         filtersOpen: <?= !empty($filters) ? 'true' : 'false' ?>,
-        mode: 'create',
-        form: {
-            id: null, acronym: '', name: '', sign: '',
-            iso_numeric: '', internal_code: '', flag: '', status: 'active'
-        },
-        deleteId: null,
-        deleteName: '',
-
-        init() {
-            this.$watch('drawerOpen', val => {
-                document.body.style.overflow = val ? 'hidden' : '';
-            });
-        },
-
-        get formAction() {
-            return this.mode === 'edit'
-                ? '<?= base_url('currencies/') ?>' + this.form.id
-                : '<?= base_url('currencies') ?>';
-        },
-
-        openCreate() {
-            this.mode = 'create';
-            this.form = { id: null, acronym: '', name: '', sign: '', iso_numeric: '', internal_code: '', flag: '', status: 'active' };
-            this.drawerOpen = true;
-            this.$nextTick(() => this.$refs.acronymInput?.focus());
-        },
-
-        openEdit(data) {
-            this.mode = 'edit';
-            this.form = { ...data };
-            this.drawerOpen = true;
-        },
-
-        confirmDelete(id, name) {
-            this.deleteId = id;
-            this.deleteName = name;
-            bootstrap.Modal.getOrCreateInstance(this.$refs.modalDelete).show();
-        },
-    }));
-});
+        baseUrl:     '<?= base_url('currencies') ?>',
+    };
 </script>
+<script src="<?= base_url('assets/js/utils/fetch-partial.js') ?>"></script>
+<script src="<?= base_url('assets/js/components/currency-page.js') ?>"></script>
 <?= $this->endSection() ?>
