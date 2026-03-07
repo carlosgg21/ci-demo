@@ -1,69 +1,136 @@
-# CodeIgniter 4 Application Starter
+# CI Demo — Admin Panel
 
-## What is CodeIgniter?
+Panel de administración full-stack construido con **CodeIgniter 4**, diseñado como base reutilizable para proyectos CMS multi-tenant con API REST incluida.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Stack
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+| Capa | Tecnología |
+|------|-----------|
+| Backend | PHP 8.2+, CodeIgniter 4.7 |
+| Frontend | Alpine.js 3, Bootstrap 5.3, Bootstrap Icons |
+| Gráficas | Chart.js 4 |
+| Iconos de país | Flag Icons 7 |
+| Base de datos | MySQL (MySQLi) |
+| Testing | PHPUnit 10, Faker |
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Módulos
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+| Módulo | Descripción |
+|--------|-------------|
+| **Usuarios** | Gestión de cuentas con roles (`super_admin`, `admin`, `editor`) |
+| **Empresas** | Entidades multi-tenant base del sistema |
+| **Monedas** | Catálogo de divisas con símbolo, ISO numérico y bandera |
+| **Locales** | Configuración de idiomas/regiones |
+| **Ajustes** | Configuración global de la aplicación |
+| **Servicios** | Catálogo de productos/servicios paginado |
+| **Miembros del equipo** | Perfiles con relación a empresa |
+| **Testimonios** | Reseñas de clientes |
+| **Secciones de contenido** | Bloques de landing page con soporte i18n (JSON) |
+| **Tipos de sección** | Definición de plantillas de sección |
+| **Medios** | Gestión de archivos/uploads |
+| **Redes sociales** | Links a perfiles de redes |
+| **Contacto** | Bandeja de formularios de contacto |
 
-## Installation & updates
+## Arquitectura
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+```
+app/
+├── Controllers/          # Web controllers (HTML) + Api/ (JSON)
+├── Models/               # CI4 Models con soft delete y timestamps
+├── Entities/             # Entidades tipadas con cast helpers
+├── Repositories/         # Capa de abstracción sobre Models
+├── Requests/             # Validación de entrada centralizada
+├── Exceptions/           # Excepciones de dominio
+├── Views/
+│   ├── layouts/          # Layout principal (main.php) y auth
+│   ├── partials/         # Sidebar, navbar
+│   └── [módulo]/         # Vista index + _drawer por módulo
+└── Database/
+    ├── Migrations/       # 12 migraciones
+    └── Seeds/            # Seeders de datos de prueba
+```
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+**Patrones aplicados:**
+- Repository Pattern — controllers nunca tocan models directamente
+- Entity Pattern — objetos tipados con métodos helper (`getStatusBadge()`, `getFlagHtml()`, etc.)
+- Request Objects — validación desacoplada del controller
 
-## Setup
+## API REST
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Endpoints bajo `/api/v1/` con soporte completo CRUD:
 
-## Important Change with index.php
+```
+GET    /api/v1/services
+POST   /api/v1/services
+GET    /api/v1/services/{id}
+PUT    /api/v1/services/{id}
+DELETE /api/v1/services/{id}
+```
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+Estructura lista para versionado (`v1`, `v2`).
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## Instalación
 
-**Please** read the user guide for a better explanation of how CI4 works!
+**Requisitos:** PHP 8.2+, MySQL, Composer, Node.js
 
-## Repository Management
+```bash
+# 1. Clonar e instalar dependencias PHP
+git clone https://github.com/carlosgg21/ci-demo.git
+cd ci-demo
+composer install
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+# 2. Instalar assets frontend
+npm install
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+# 3. Configurar entorno
+cp env .env
+# Editar .env: CI_ENVIRONMENT, database.*, app.baseURL
 
-## Server Requirements
+# 4. Crear base de datos y migrar
+php spark db:create bd_ci_demo   # si no existe
+php spark migrate
+php spark db:seed MainSeeder     # datos de prueba (opcional)
+```
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+## Configuración del servidor
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+Apuntar el document root a la carpeta `public/`:
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+```apache
+# Apache VirtualHost
+DocumentRoot /ruta/al/proyecto/public
+```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```nginx
+# Nginx
+root /ruta/al/proyecto/public;
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Con Laragon, configurar el host virtual apuntando a `public/`.
+
+## Variables de entorno clave
+
+```ini
+CI_ENVIRONMENT = development
+
+app.baseURL = 'http://localhost/ci-demo/public/'
+
+database.default.hostname = localhost
+database.default.database = bd_ci_demo
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+```
+
+## Tests
+
+```bash
+php spark test
+# o
+./vendor/bin/phpunit
+```
+
+## Requisitos PHP
+
+- PHP 8.2+
+- Extensiones: `intl`, `mbstring`, `json`, `mysqlnd`, `libcurl`
