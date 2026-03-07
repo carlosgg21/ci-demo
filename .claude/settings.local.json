@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php vendor/bin/phpunit tests/unit/ApiResponseTest.php --no-coverage)",
+      "Bash(vendor/bin/phpunit --version)"
+    ]
+  }
+}

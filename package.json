@@ -1,0 +1,16 @@
+{
+  "name": "adminpanel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:vendor": "node build-vendor.js",
+    "postinstall": "node build-vendor.js"
+  },
+  "dependencies": {
+    "alpinejs": "^3.14.8",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.7",
+    "flag-icons": "^7.2.3"
+  }
+}
