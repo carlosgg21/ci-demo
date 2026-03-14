@@ -7,6 +7,7 @@ use App\Requests\StoreCurrencyRequest;
 use App\Requests\UpdateCurrencyRequest;
 use App\Exceptions\ResourceNotFoundException;
 use CodeIgniter\HTTP\RedirectResponse;
+use CodeIgniter\HTTP\ResponseInterface;
 
 /**
  * Controlador para gestionar monedas
@@ -163,6 +164,39 @@ class CurrencyController extends BaseController
             return redirect()->back()
                            ->with('error', $e->getMessage())
                            ->withInput();
+        }
+    }
+
+    /**
+     * Cambiar estado de una moneda (toggle active/inactive)
+     */
+    public function toggleStatus(int $id): RedirectResponse|ResponseInterface
+    {
+        try {
+            $currency = $this->repository->getById($id);
+
+            if (!$currency) {
+                throw new ResourceNotFoundException('Moneda no encontrada');
+            }
+
+            $newStatus = $currency->status === 'active' ? 'inactive' : 'active';
+            $this->repository->changeStatus($id, $newStatus);
+
+            $label = $newStatus === 'active' ? 'activada' : 'desactivada';
+
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON(['status' => $newStatus]);
+            }
+
+            return redirect()->to('currencies')
+                           ->with('success', "Moneda {$label} exitosamente");
+        } catch (\Exception $e) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+            }
+
+            return redirect()->back()
+                           ->with('error', $e->getMessage());
         }
     }
 

@@ -89,24 +89,22 @@ body {
     font-size: 1.25rem;
     white-space: nowrap;
     overflow: hidden;
+    max-width: 100%;
 }
 
-.sidebar-brand .brand-icon {
-    width: 32px;
+.sidebar-brand .brand-logo {
+    height: 48px;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.sidebar-brand .brand-logo-mini {
     height: 32px;
-    min-width: 32px;
-    background: #435ebe;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: 700;
-    font-size: 1rem;
-}
-
-.sidebar-brand .brand-text {
-    margin-left: 0.75rem;
+    width: auto;
+    display: none;
     transition: opacity var(--transition-speed) ease;
 }
 
@@ -281,10 +279,12 @@ body.sidebar-mini .app-header {
     left: var(--sidebar-mini-width);
 }
 
-body.sidebar-mini .sidebar-brand .brand-text {
-    opacity: 0;
-    width: 0;
-    margin: 0;
+body.sidebar-mini .sidebar-brand .brand-logo {
+    display: none;
+}
+
+body.sidebar-mini .sidebar-brand .brand-logo-mini {
+    display: block;
 }
 
 body.sidebar-mini .sidebar-brand {
@@ -659,7 +659,7 @@ body.sidebar-mini .sidebar-menu .submenu .flyout-header {
     letter-spacing: 0.04em;
     color: rgba(255, 255, 255, 0.9);
     border-bottom: none;
-    padding: 0.7rem 1rem;
+    padding: 0.55rem 0.75rem;
 }
 
 .table-card .table th:first-child {
@@ -671,7 +671,7 @@ body.sidebar-mini .sidebar-menu .submenu .flyout-header {
 }
 
 .table-card .table td {
-    padding: 0.75rem 1rem;
+    padding: 0.55rem 0.75rem;
     vertical-align: middle;
     font-size: 0.875rem;
     border-bottom: 1px solid #f1f5f9;

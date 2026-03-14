@@ -4,49 +4,6 @@
 
 <div x-data="currencyPage" @keydown.escape.window="drawerOpen = false">
 
-<!-- Stats -->
-<div class="row g-3 mb-4">
-    <div class="col-sm-4">
-        <div class="card stats-card">
-            <div class="card-body d-flex align-items-center">
-                <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
-                    <i class="bi bi-currency-exchange"></i>
-                </div>
-                <div>
-                    <div class="text-muted small">Total</div>
-                    <div class="fs-4 fw-bold"><?= $stats['total'] ?></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="card stats-card">
-            <div class="card-body d-flex align-items-center">
-                <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
-                    <i class="bi bi-check-circle-fill"></i>
-                </div>
-                <div>
-                    <div class="text-muted small">Activas</div>
-                    <div class="fs-4 fw-bold"><?= $stats['active'] ?></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="card stats-card">
-            <div class="card-body d-flex align-items-center">
-                <div class="stats-icon bg-danger bg-opacity-10 text-danger me-3">
-                    <i class="bi bi-x-circle-fill"></i>
-                </div>
-                <div>
-                    <div class="text-muted small">Inactivas</div>
-                    <div class="fs-4 fw-bold"><?= $stats['inactive'] ?></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Toolbar -->
 <div class="crud-toolbar">
     <div class="crud-toolbar-left">
@@ -106,19 +63,17 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Bandera</th>
                     <th>Acrónimo</th>
                     <th>Moneda</th>
                     <th>Símbolo</th>
                     <th>ISO Num</th>
-                    <th>Estado</th>
                     <th width="50"></th>
                 </tr>
             </thead>
             <tbody>
             <?php if (empty($currencies)): ?>
                 <tr>
-                    <td colspan="8">
+                    <td colspan="6">
                         <div class="empty-state">
                             <i class="bi bi-currency-exchange"></i>
                             <h6>No hay monedas</h6>
@@ -130,7 +85,6 @@
                 <?php foreach ($currencies as $currency): ?>
                 <tr>
                     <td class="text-muted small"><?= $currency->id ?></td>
-                    <td><?= $currency->getFlagHtml() ?></td>
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="user-avatar me-2" style="width:30px;height:30px;font-size:0.7rem;">
@@ -139,10 +93,9 @@
                             <span class="fw-semibold"><?= esc($currency->acronym) ?></span>
                         </div>
                     </td>
-                    <td><?= esc($currency->name) ?></td>
+                    <td><?= $currency->getFlagHtml() ?> <?= esc($currency->name) ?></td>
                     <td><?= esc($currency->sign) ?></td>
                     <td class="text-muted"><?= $currency->iso_numeric ?? '—' ?></td>
-                    <td><?= $currency->getStatusBadge() ?></td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-sm btn-icon" data-bs-toggle="dropdown">

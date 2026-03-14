@@ -14,8 +14,8 @@ $isOpen = function(array $paths) {
 <aside class="app-sidebar">
     <div class="sidebar-brand">
         <a href="<?= base_url('/') ?>" class="brand-link">
-            <div class="brand-icon">A</div>
-            <span class="brand-text">AdminPanel</span>
+            <img src="<?= base_url('assets/img/logo.png') ?>" alt="CLIQ" class="brand-logo">
+            <img src="<?= base_url('assets/img/logo_mini.png') ?>" alt="CLIQ" class="brand-logo-mini">
         </a>
     </div>
 
@@ -82,6 +82,52 @@ $isOpen = function(array $paths) {
                 </a>
             </li>
 
+            <li class="menu-header">Catálogos</li>
+
+            <li class="menu-item has-submenu">
+                <a href="#" class="menu-link" data-submenu="menuCatalogos"
+                   aria-expanded="<?= $isOpen(['currencies']) ? 'true' : 'false' ?>">
+                    <i class="bi bi-collection-fill menu-icon"></i>
+                    <span class="menu-text">Catálogos</span>
+                    <i class="bi bi-chevron-right menu-arrow"></i>
+                </a>
+                <ul id="menuCatalogos" class="submenu <?= $isOpen(['currencies']) ? 'show' : '' ?>">
+                    <li class="flyout-header">Catálogos</li>
+                    <li class="menu-item">
+                        <a href="<?= base_url('currencies') ?>" class="menu-link <?= $isActive('currencies') ?>">
+                            <i class="bi bi-currency-exchange menu-icon"></i>
+                            <span class="menu-text">Monedas</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-header">Seguridad</li>
+
+            <li class="menu-item has-submenu">
+                <a href="#" class="menu-link" data-submenu="menuSeguridad"
+                   aria-expanded="<?= $isOpen(['users', 'roles']) ? 'true' : 'false' ?>">
+                    <i class="bi bi-shield-lock-fill menu-icon"></i>
+                    <span class="menu-text">Seguridad</span>
+                    <i class="bi bi-chevron-right menu-arrow"></i>
+                </a>
+                <ul id="menuSeguridad" class="submenu <?= $isOpen(['users', 'roles']) ? 'show' : '' ?>">
+                    <li class="flyout-header">Seguridad</li>
+                    <li class="menu-item">
+                        <a href="<?= base_url('users') ?>" class="menu-link <?= $isActive('users') ?>">
+                            <i class="bi bi-people-fill menu-icon"></i>
+                            <span class="menu-text">Usuarios</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="<?= base_url('roles') ?>" class="menu-link <?= $isActive('roles') ?>">
+                            <i class="bi bi-person-badge-fill menu-icon"></i>
+                            <span class="menu-text">Roles</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="menu-header">Sistema</li>
 
             <li class="menu-item has-submenu">
@@ -95,12 +141,6 @@ $isOpen = function(array $paths) {
                     <li class="flyout-header">Configuración</li>
                     <li class="menu-item">
                         <a href="<?= base_url('configuracion/general') ?>" class="menu-link"><span class="menu-text">General</span></a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="<?= base_url('configuracion/usuarios') ?>" class="menu-link"><span class="menu-text">Usuarios</span></a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="<?= base_url('configuracion/roles') ?>" class="menu-link"><span class="menu-text">Roles</span></a>
                     </li>
                 </ul>
             </li>
