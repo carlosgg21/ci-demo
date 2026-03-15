@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(php vendor/bin/phpunit tests/unit/ApiResponseTest.php --no-coverage)",
-      "Bash(vendor/bin/phpunit --version)"
+      "Bash(vendor/bin/phpunit --version)",
+      "Bash(npm install simple-datatables --save)"
     ]
   }
 }

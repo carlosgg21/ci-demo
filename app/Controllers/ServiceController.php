@@ -38,10 +38,11 @@ class ServiceController extends BaseController
     public function index(): string
     {
         return view('services/index', [
-            'title'          => 'Listado de Servicios',
-            'services'       => $this->repository->getPaginatedRecent(10),
-            'pager'          => $this->repository->getPager(),
-            'stats'          => $this->repository->getStats(),
+            'title'      => 'Listado de Servicios',
+            'pageTitle'  => 'Servicios',
+            'breadcrumb' => ['Configuración' => null, 'Servicios' => null],
+            'services'   => $this->repository->getAll(),
+            'stats'      => $this->repository->getStats(),
         ]);
     }
 

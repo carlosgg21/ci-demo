@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Admin Panel' ?> - AdminPanel</title>
+    <meta name="X-CSRF-TOKEN" content="<?= csrf_hash() ?>">
 
     <!-- Bootstrap 5 (local) -->
     <link href="<?= base_url('vendor/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
@@ -11,6 +12,8 @@
     <link href="<?= base_url('vendor/bootstrap-icons/bootstrap-icons.min.css') ?>" rel="stylesheet">
     <!-- Flag Icons (local) -->
     <link href="<?= base_url('vendor/flag-icons/css/flag-icons.min.css') ?>" rel="stylesheet">
+    <!-- Simple-DataTables CSS -->
+    <link href="<?= base_url('vendor/simple-datatables/style.css') ?>" rel="stylesheet">
     <!-- Admin CSS -->
     <link href="<?= base_url('assets/css/admin.css') ?>" rel="stylesheet">
     <!-- Alpine.js (local) -->
@@ -22,9 +25,7 @@
 
 <!-- Page Loader -->
 <div class="page-loader">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
+    <div class="dot-loader"></div>
 </div>
 
 <!-- Sidebar Overlay (mobile) -->
@@ -92,18 +93,38 @@
 
     </div>
 
-    <!-- Footer -->
-    <footer class="app-footer d-flex justify-content-between">
-        <span>&copy; <?= date('Y') ?> AdminPanel</span>
-        <span>v1.0.0</span>
-    </footer>
+
 </main>
 
 <!-- Toast Container -->
-<div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+<div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index:1090;"></div>
+
+<!-- Global Confirm Modal -->
+<div class="modal fade" id="globalConfirmModal" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <i class="confirm-icon bi bi-exclamation-triangle-fill text-warning" style="font-size:2.5rem;"></i>
+                <h5 class="confirm-title mt-3 mb-2"></h5>
+                <p class="confirm-message text-muted small mb-0"></p>
+            </div>
+            <div class="modal-footer justify-content-center border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary btn-sm confirm-btn-cancel" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger btn-sm confirm-btn-ok">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Bootstrap JS (local) -->
 <script src="<?= base_url('vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+<!-- Simple-DataTables JS -->
+<script src="<?= base_url('vendor/simple-datatables/simple-datatables.js') ?>"></script>
+<!-- Global Utils -->
+<script src="<?= base_url('assets/js/utils/toast.js') ?>"></script>
+<script src="<?= base_url('assets/js/utils/confirm-modal.js') ?>"></script>
+<!-- CRUD Page Base Component -->
+<script src="<?= base_url('assets/js/components/crud-page.js') ?>"></script>
 <!-- Admin JS -->
 <script src="<?= base_url('assets/js/admin.js') ?>"></script>
 

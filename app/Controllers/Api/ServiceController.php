@@ -192,6 +192,37 @@ class ServiceController extends BaseController
     }
 
     /**
+     * Toggle estado de un servicio (is_active 1 <-> 0)
+     */
+    public function toggleStatus(int $id): ResponseInterface
+    {
+        try {
+            $service = $this->repository->getById($id);
+
+            if (!$service) {
+                throw new ResourceNotFoundException('Servicio no encontrado');
+            }
+
+            $newActive = $service->is_active ? false : true;
+            $this->repository->changeStatus($id, $newActive);
+
+            return $this->respond(
+                ApiResponse::success(['is_active' => $newActive ? 1 : 0], 200, 'Estado actualizado')
+            );
+        } catch (ResourceNotFoundException $e) {
+            return $this->respond(
+                ApiResponse::notFound($e->getMessage()),
+                404
+            );
+        } catch (\Exception $e) {
+            return $this->respond(
+                ApiResponse::error($e->getMessage(), 500),
+                500
+            );
+        }
+    }
+
+    /**
      * Obtener servicios activos
      *
      * @return ResponseInterface

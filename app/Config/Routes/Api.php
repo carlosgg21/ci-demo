@@ -11,7 +11,9 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
     // Versión 1 de la API
     $routes->group('v1', function($routes) {
         // Rutas RESTful para servicios
+        $routes->patch('services/(:num)/toggle-status', 'ServiceController::toggleStatus/$1');
         $routes->resource('services', ['controller' => 'ServiceController']);
+        $routes->patch('currencies/(:num)/toggle-status', 'CurrencyController::toggleStatus/$1');
         $routes->resource('currencies', ['controller' => 'CurrencyController']);
         $routes->resource('users', ['controller' => 'UserController']);
         $routes->resource('companies', ['controller' => 'CompanyController']);

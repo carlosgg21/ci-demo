@@ -72,6 +72,23 @@ class ServiceRepository extends BaseRepository
     }
 
     /**
+     * Buscar servicios por nombre o descripción
+     *
+     * @param string $term Término de búsqueda
+     * @return array
+     */
+    public function searchByNameOrDescription(string $term): array
+    {
+        return $this->model
+            ->groupStart()
+                ->like('name', $term)
+                ->orLike('description', $term)
+                ->orLike('slug', $term)
+            ->groupEnd()
+            ->findAll();
+    }
+
+    /**
      * Buscar servicios por slug exacto
      *
      * @param string $slug Slug a buscar

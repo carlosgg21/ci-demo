@@ -20,9 +20,17 @@ class StoreServiceRequest
             'label' => 'Empresa',
             'rules' => 'required|numeric|is_not_unique[companies.id]'
         ],
+        'name' => [
+            'label' => 'Nombre',
+            'rules' => 'required|min_length[2]|max_length[200]'
+        ],
         'slug' => [
             'label' => 'Slug',
             'rules' => 'required|min_length[3]|max_length[150]|is_unique[services.slug]|alpha_dash'
+        ],
+        'description' => [
+            'label' => 'Descripción',
+            'rules' => 'permit_empty|string'
         ],
         'image' => [
             'label' => 'Imagen',
@@ -52,6 +60,11 @@ class StoreServiceRequest
             'required'      => 'La empresa es obligatoria',
             'numeric'       => 'El ID de empresa debe ser numérico',
             'is_not_unique' => 'La empresa no existe'
+        ],
+        'name' => [
+            'required'    => 'El nombre es obligatorio',
+            'min_length'  => 'El nombre debe tener al menos 2 caracteres',
+            'max_length'  => 'El nombre no puede exceder los 200 caracteres',
         ],
         'slug' => [
             'required'    => 'El slug es obligatorio',
@@ -99,7 +112,9 @@ class StoreServiceRequest
 
         return [
             'company_id'  => $request->getPost('company_id'),
+            'name'        => $request->getPost('name'),
             'slug'        => $request->getPost('slug'),
+            'description' => $request->getPost('description'),
             'image'       => $request->getPost('image'),
             'icon'        => $request->getPost('icon'),
             'sort_order'  => $request->getPost('sort_order', 0),

@@ -17,10 +17,11 @@ class ServiceSeeder extends Seeder
             [
                 'company_id'  => 1,
                 'slug'        => 'web-development',
+                'name'        => 'Desarrollo Web',
+                'description' => 'Construimos sitios web modernos y rápidos.',
                 'image'       => null,
                 'icon'        => 'fa-code',
                 'translations'=> json_encode([
-                    'es' => ['name' => 'Desarrollo Web', 'description' => 'Construimos sitios web modernos y rápidos.'],
                     'en' => ['name' => 'Web Development', 'description' => 'We build fast and modern websites.'],
                 ]),
                 'sort_order'  => 1,
@@ -31,10 +32,11 @@ class ServiceSeeder extends Seeder
             [
                 'company_id'  => 1,
                 'slug'        => 'mobile-apps',
+                'name'        => 'Aplicaciones Móviles',
+                'description' => 'Desarrollamos apps para iOS y Android.',
                 'image'       => null,
                 'icon'        => 'fa-mobile-alt',
                 'translations'=> json_encode([
-                    'es' => ['name' => 'Aplicaciones Móviles', 'description' => 'Desarrollamos apps para iOS y Android.'],
                     'en' => ['name' => 'Mobile Apps', 'description' => 'We develop apps for iOS and Android.'],
                 ]),
                 'sort_order'  => 2,
@@ -45,10 +47,11 @@ class ServiceSeeder extends Seeder
             [
                 'company_id'  => 1,
                 'slug'        => 'ui-ux-design',
+                'name'        => 'Diseño UI/UX',
+                'description' => 'Diseños centrados en la experiencia de usuario.',
                 'image'       => null,
                 'icon'        => 'fa-paint-brush',
                 'translations'=> json_encode([
-                    'es' => ['name' => 'Diseño UI/UX', 'description' => 'Diseños centrados en la experiencia de usuario.'],
                     'en' => ['name' => 'UI/UX Design', 'description' => 'Designs focused on user experience.'],
                 ]),
                 'sort_order'  => 3,

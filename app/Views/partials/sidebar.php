@@ -86,17 +86,23 @@ $isOpen = function(array $paths) {
 
             <li class="menu-item has-submenu">
                 <a href="#" class="menu-link" data-submenu="menuCatalogos"
-                   aria-expanded="<?= $isOpen(['currencies']) ? 'true' : 'false' ?>">
+                   aria-expanded="<?= $isOpen(['currencies', 'services']) ? 'true' : 'false' ?>">
                     <i class="bi bi-collection-fill menu-icon"></i>
                     <span class="menu-text">Catálogos</span>
                     <i class="bi bi-chevron-right menu-arrow"></i>
                 </a>
-                <ul id="menuCatalogos" class="submenu <?= $isOpen(['currencies']) ? 'show' : '' ?>">
+                <ul id="menuCatalogos" class="submenu <?= $isOpen(['currencies', 'services']) ? 'show' : '' ?>">
                     <li class="flyout-header">Catálogos</li>
                     <li class="menu-item">
                         <a href="<?= base_url('currencies') ?>" class="menu-link <?= $isActive('currencies') ?>">
                             <i class="bi bi-currency-exchange menu-icon"></i>
                             <span class="menu-text">Monedas</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="<?= base_url('services') ?>" class="menu-link <?= $isActive('services') ?>">
+                            <i class="bi bi-briefcase-fill menu-icon"></i>
+                            <span class="menu-text">Servicios</span>
                         </a>
                     </li>
                 </ul>

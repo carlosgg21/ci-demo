@@ -16,9 +16,17 @@ class UpdateServiceRequest
      * @var array
      */
     protected array $rules = [
+        'name' => [
+            'label' => 'Nombre',
+            'rules' => 'if_exist|required|min_length[2]|max_length[200]'
+        ],
         'slug' => [
             'label' => 'Slug',
             'rules' => 'if_exist|required|min_length[3]|max_length[150]|is_unique[services.slug,id,{id}]|alpha_dash'
+        ],
+        'description' => [
+            'label' => 'Descripción',
+            'rules' => 'if_exist|permit_empty|string'
         ],
         'image' => [
             'label' => 'Imagen',
@@ -44,6 +52,11 @@ class UpdateServiceRequest
      * @var array
      */
     protected array $messages = [
+        'name' => [
+            'required'   => 'El nombre es obligatorio',
+            'min_length' => 'El nombre debe tener al menos 2 caracteres',
+            'max_length' => 'El nombre no puede exceder los 200 caracteres',
+        ],
         'slug' => [
             'required'   => 'El slug es obligatorio',
             'min_length' => 'El slug debe tener al menos 3 caracteres',
@@ -96,9 +109,15 @@ class UpdateServiceRequest
         self::validate($request, $id);
 
         $data = [];
-        
+
+        if ($request->getPost('name') !== null) {
+            $data['name'] = $request->getPost('name');
+        }
         if ($request->getPost('slug') !== null) {
             $data['slug'] = $request->getPost('slug');
+        }
+        if ($request->getPost('description') !== null) {
+            $data['description'] = $request->getPost('description');
         }
         if ($request->getPost('image') !== null) {
             $data['image'] = $request->getPost('image');

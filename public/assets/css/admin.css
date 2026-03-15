@@ -755,12 +755,42 @@ body.sidebar-mini .sidebar-menu .submenu .flyout-header {
 }
 
 /* ===========================
-   LOADER
+   LOADER (dots square animation)
    =========================== */
+
+/* Dot loader reutilizable */
+.dot-loader {
+    height: 6px;
+    width: 6px;
+    color: var(--sidebar-active-color);
+    box-shadow: -12px -12px 0 6px,
+                -12px -12px 0 6px,
+                -12px -12px 0 6px,
+                -12px -12px 0 6px;
+    animation: dotSquare 3s infinite;
+}
+
+@keyframes dotSquare {
+    0%      { box-shadow: -12px -12px 0 6px, -12px -12px 0 6px, -12px -12px 0 6px, -12px -12px 0 6px; }
+    8.33%   { box-shadow: -12px -12px 0 6px,  12px -12px 0 6px,  12px -12px 0 6px,  12px -12px 0 6px; }
+    16.66%  { box-shadow: -12px -12px 0 6px,  12px -12px 0 6px,  12px  12px 0 6px,  12px  12px 0 6px; }
+    24.99%  { box-shadow: -12px -12px 0 6px,  12px -12px 0 6px,  12px  12px 0 6px, -12px  12px 0 6px; }
+    33.32%  { box-shadow: -12px -12px 0 6px,  12px -12px 0 6px,  12px  12px 0 6px, -12px -12px 0 6px; }
+    41.65%  { box-shadow:  12px -12px 0 6px,  12px -12px 0 6px,  12px  12px 0 6px,  12px -12px 0 6px; }
+    49.98%  { box-shadow:  12px  12px 0 6px,  12px  12px 0 6px,  12px  12px 0 6px,  12px  12px 0 6px; }
+    58.31%  { box-shadow: -12px  12px 0 6px, -12px  12px 0 6px,  12px  12px 0 6px, -12px  12px 0 6px; }
+    66.64%  { box-shadow: -12px -12px 0 6px, -12px -12px 0 6px,  12px  12px 0 6px, -12px  12px 0 6px; }
+    74.97%  { box-shadow: -12px -12px 0 6px,  12px -12px 0 6px,  12px  12px 0 6px, -12px  12px 0 6px; }
+    83.3%   { box-shadow: -12px -12px 0 6px,  12px  12px 0 6px,  12px  12px 0 6px, -12px  12px 0 6px; }
+    91.63%  { box-shadow: -12px -12px 0 6px, -12px  12px 0 6px, -12px  12px 0 6px, -12px  12px 0 6px; }
+    100%    { box-shadow: -12px -12px 0 6px, -12px -12px 0 6px, -12px -12px 0 6px, -12px -12px 0 6px; }
+}
+
+/* Page loader (pantalla completa al cargar) */
 .page-loader {
     position: fixed;
     inset: 0;
-    background: #fff;
+    background: var(--body-bg);
     z-index: 9999;
     display: flex;
     align-items: center;
@@ -771,6 +801,22 @@ body.sidebar-mini .sidebar-menu .submenu .flyout-header {
 .page-loader.loaded {
     opacity: 0;
     pointer-events: none;
+}
+
+/* Overlay loader para cards/tablas */
+.card-loader {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: inherit;
+}
+
+[data-bs-theme="dark"] .card-loader {
+    background: rgba(30, 41, 59, 0.7);
 }
 
 /* ===========================
@@ -933,12 +979,15 @@ body.sidebar-mini .sidebar-menu .submenu .flyout-header {
    DROPDOWN ANIMATION
    =========================== */
 .dropdown-menu {
-    animation: dropdownFadeIn 0.15s ease;
+    --dd-speed: 0.15s;
+    opacity: 0;
+    margin-top: -4px !important;
+    transition: opacity var(--dd-speed) ease, margin-top var(--dd-speed) ease;
 }
 
-@keyframes dropdownFadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
+.dropdown-menu.show {
+    opacity: 1;
+    margin-top: 0 !important;
 }
 
 /* ===========================
@@ -1120,3 +1169,259 @@ body.sidebar-mini .sidebar-menu .submenu .flyout-header {
 
 [data-bs-theme="dark"] .navbar-toggler-sidebar { color: #94a3b8; }
 [data-bs-theme="dark"] .navbar-toggler-sidebar:hover { color: #e2e8f0; }
+
+/* ============================================
+   Toasts
+   ============================================ */
+#toast-container .app-toast {
+    min-width: 280px;
+    border-radius: .5rem;
+    background: rgba(255, 255, 255, .95);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity .35s ease, transform .35s ease;
+}
+#toast-container .app-toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+#toast-container .app-toast.hiding {
+    opacity: 0;
+    transform: translateX(20px);
+}
+[data-bs-theme="dark"] #toast-container .app-toast {
+    background: rgba(30, 41, 59, .95);
+    color: #e2e8f0;
+}
+
+/* ===========================
+   SIMPLE-DATATABLES OVERRIDES
+   =========================== */
+
+/* Wrapper: search + perPage bar */
+.datatable-wrapper .datatable-top,
+.datatable-wrapper .datatable-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    font-size: 0.835rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.datatable-wrapper .datatable-top {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.datatable-wrapper .datatable-bottom {
+    border-top: 1px solid #e2e8f0;
+    justify-content: flex-start;
+}
+
+/* Actions (injected buttons) */
+.datatable-wrapper .datatable-actions {
+    order: 3;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+/* Search input */
+.datatable-wrapper .datatable-search {
+    order: 1;
+}
+
+.datatable-wrapper .datatable-search input {
+    font-size: 0.835rem;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    min-width: 200px;
+}
+
+.datatable-wrapper .datatable-search input:focus {
+    border-color: var(--sidebar-active-color);
+    box-shadow: 0 0 0 3px rgba(67, 94, 190, 0.12);
+}
+
+/* Per-page selector (lives in bottom bar) */
+.datatable-wrapper .datatable-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.datatable-wrapper .datatable-dropdown select {
+    font-size: 0.8rem;
+    padding: 0.3rem 1.8rem 0.3rem 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.4rem;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* Info text */
+.datatable-wrapper .datatable-info {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+/* Bottom bar: dropdown + info left, pagination right */
+.datatable-wrapper .datatable-bottom .datatable-dropdown {
+    order: 1;
+}
+
+.datatable-wrapper .datatable-bottom .datatable-info {
+    order: 2;
+}
+
+.datatable-wrapper .datatable-bottom .datatable-pagination {
+    order: 3;
+    margin-left: auto;
+}
+
+/* Pagination */
+.datatable-wrapper .datatable-pagination ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.2rem;
+}
+
+.datatable-wrapper .datatable-pagination li a,
+.datatable-wrapper .datatable-pagination li button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    color: #475569;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.datatable-wrapper .datatable-pagination li a:hover,
+.datatable-wrapper .datatable-pagination li button:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.datatable-wrapper .datatable-pagination li.datatable-active a,
+.datatable-wrapper .datatable-pagination li.datatable-active button,
+.datatable-wrapper .datatable-pagination li.active a,
+.datatable-wrapper .datatable-pagination li.active button {
+    background: var(--sidebar-active-color);
+    border-color: var(--sidebar-active-color);
+    color: #fff;
+}
+
+.datatable-wrapper .datatable-pagination li.datatable-disabled a,
+.datatable-wrapper .datatable-pagination li.datatable-disabled button {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Sort headers */
+.datatable-wrapper .datatable-sorter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    position: relative;
+    padding-right: 1rem;
+}
+
+.datatable-wrapper .datatable-sorter::before,
+.datatable-wrapper .datatable-sorter::after {
+    border-color: rgba(255, 255, 255, 0.35) transparent;
+    right: 0;
+}
+
+.datatable-wrapper th.datatable-ascending .datatable-sorter::after,
+.datatable-wrapper th.asc .datatable-sorter::after {
+    border-bottom-color: #fff;
+}
+
+.datatable-wrapper th.datatable-descending .datatable-sorter::before,
+.datatable-wrapper th.desc .datatable-sorter::before {
+    border-top-color: #fff;
+}
+
+/* Remove default Simple-DataTables container styles */
+.datatable-wrapper .datatable-container {
+    border: none;
+    padding: 0;
+}
+
+/* Ensure table rows keep hover behavior with 3-dots */
+.datatable-wrapper .table tbody tr .btn-icon {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.datatable-wrapper .table tbody tr:hover .btn-icon {
+    opacity: 1;
+}
+
+/* --- Dark mode overrides --- */
+[data-bs-theme="dark"] .datatable-wrapper .datatable-top,
+[data-bs-theme="dark"] .datatable-wrapper .datatable-bottom {
+    border-color: #334155;
+}
+
+[data-bs-theme="dark"] .datatable-wrapper .datatable-search input {
+    background: #1e293b;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] .datatable-wrapper .datatable-search input:focus {
+    border-color: var(--sidebar-active-color);
+    box-shadow: 0 0 0 3px rgba(67, 94, 190, 0.2);
+}
+
+[data-bs-theme="dark"] .datatable-wrapper .datatable-dropdown select {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+[data-bs-theme="dark"] .datatable-wrapper .datatable-info {
+    color: #94a3b8;
+}
+
+[data-bs-theme="dark"] .datatable-wrapper .datatable-pagination li a,
+[data-bs-theme="dark"] .datatable-wrapper .datatable-pagination li button {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+[data-bs-theme="dark"] .datatable-wrapper .datatable-pagination li a:hover,
+[data-bs-theme="dark"] .datatable-wrapper .datatable-pagination li button:hover {
+    background: #263045;
+    border-color: #475569;
+}
+
+[data-bs-theme="dark"] .datatable-wrapper .datatable-pagination li.datatable-active a,
+[data-bs-theme="dark"] .datatable-wrapper .datatable-pagination li.datatable-active button,
+[data-bs-theme="dark"] .datatable-wrapper .datatable-pagination li.active a,
+[data-bs-theme="dark"] .datatable-wrapper .datatable-pagination li.active button {
+    background: var(--sidebar-active-color);
+    border-color: var(--sidebar-active-color);
+    color: #fff;
+}

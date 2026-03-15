@@ -7,7 +7,6 @@ use App\Requests\StoreCurrencyRequest;
 use App\Requests\UpdateCurrencyRequest;
 use App\Exceptions\ResourceNotFoundException;
 use CodeIgniter\HTTP\RedirectResponse;
-use CodeIgniter\HTTP\ResponseInterface;
 
 /**
  * Controlador para gestionar monedas
@@ -38,19 +37,12 @@ class CurrencyController extends BaseController
      */
     public function index(): string
     {
-        $page   = (int) ($this->request->getVar('page') ?? 1);
-        $search = $this->request->getVar('q') ?? '';
-        $status = $this->request->getVar('status') ?? '';
-
         return view('currencies/index', [
             'title'      => 'Listado de Monedas',
             'pageTitle'  => 'Monedas',
             'breadcrumb' => ['Configuración' => null, 'Monedas' => null],
-            'currencies' => $this->repository->getPaginatedFiltered(10, $page, $search ?: null, $status ?: null),
-            'pager'      => $this->repository->getPager(),
+            'currencies' => $this->repository->getAllAlphabetical(),
             'stats'      => $this->repository->getStats(),
-            'search'     => $search,
-            'filters'    => $status ? ['status' => $status] : [],
         ]);
     }
 
@@ -167,38 +159,6 @@ class CurrencyController extends BaseController
         }
     }
 
-    /**
-     * Cambiar estado de una moneda (toggle active/inactive)
-     */
-    public function toggleStatus(int $id): RedirectResponse|ResponseInterface
-    {
-        try {
-            $currency = $this->repository->getById($id);
-
-            if (!$currency) {
-                throw new ResourceNotFoundException('Moneda no encontrada');
-            }
-
-            $newStatus = $currency->status === 'active' ? 'inactive' : 'active';
-            $this->repository->changeStatus($id, $newStatus);
-
-            $label = $newStatus === 'active' ? 'activada' : 'desactivada';
-
-            if ($this->request->isAJAX()) {
-                return $this->response->setJSON(['status' => $newStatus]);
-            }
-
-            return redirect()->to('currencies')
-                           ->with('success', "Moneda {$label} exitosamente");
-        } catch (\Exception $e) {
-            if ($this->request->isAJAX()) {
-                return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
-            }
-
-            return redirect()->back()
-                           ->with('error', $e->getMessage());
-        }
-    }
 
     /**
      * Eliminar una moneda

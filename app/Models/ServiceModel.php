@@ -19,6 +19,8 @@ class ServiceModel extends Model
     protected $allowedFields = [
         'company_id',
         'slug',
+        'name',
+        'description',
         'image',
         'icon',
         'translations',
@@ -40,6 +42,7 @@ class ServiceModel extends Model
     protected $validationRules = [
         'company_id' => 'required|numeric',
         'slug'       => 'required|alpha_dash|max_length[150]',
+        'name'       => 'required|max_length[200]',
     ];
 
     protected $validationMessages = [];
@@ -83,7 +86,11 @@ class ServiceModel extends Model
     public function search(string $term, int $companyId)
     {
         return $this->where('company_id', $companyId)
-                    ->like('slug', $term)
+                    ->groupStart()
+                        ->like('name', $term)
+                        ->orLike('description', $term)
+                        ->orLike('slug', $term)
+                    ->groupEnd()
                     ->findAll();
     }
 }
