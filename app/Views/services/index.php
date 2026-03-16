@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<div x-data="servicePage" @keydown.escape.window="drawerOpen = false">
+<div x-data="servicePage" @keydown.escape.window="drawerOpen = false; transDrawerOpen = false">
 
 <!-- Panel de filtros -->
 <div class="filter-panel" :class="{ 'show': filtersOpen }">
@@ -93,19 +93,35 @@
                             </li>
                             <li>
                                 <button type="button" class="dropdown-item"
-                                        @click="openEdit(<?= esc(json_encode([
-                                            'id'          => $service->id,
-                                            'name'        => $service->name,
-                                            'slug'        => $service->slug,
-                                            'description' => $service->description,
-                                            'icon'        => $service->icon,
-                                            'image'       => $service->image,
-                                            'sort_order'  => $service->sort_order,
-                                            'is_active'   => $service->is_active,
-                                        ]), 'attr') ?>)">
+                                        @click="openEdit(JSON.parse($el.dataset.entity))"
+                                        data-entity="<?= esc(json_encode([
+                                            'id'           => $service->id,
+                                            'name'         => $service->name,
+                                            'slug'         => $service->slug,
+                                            'description'  => $service->description,
+                                            'icon'         => $service->icon,
+                                            'image'        => $service->image,
+                                            'sort_order'   => $service->sort_order,
+                                            'is_active'    => $service->is_active,
+                                        ]), 'attr') ?>">
                                     <i class="bi bi-pencil me-2 text-muted"></i>Editar
                                 </button>
                             </li>
+                            <?php if (!empty($secondaryLocales)): ?>
+                            <li>
+                                <button type="button" class="dropdown-item"
+                                        @click="openTranslate(JSON.parse($el.dataset.entity), $el.dataset.name)"
+                                        data-entity="<?= esc(json_encode([
+                                            'id'           => $service->id,
+                                            'name'         => $service->name,
+                                            'description'  => $service->description,
+                                            'translations' => $service->getTranslationsArray(),
+                                        ]), 'attr') ?>"
+                                        data-name="<?= esc($service->name, 'attr') ?>">
+                                    <i class="bi bi-translate me-2 text-muted"></i>Traducir
+                                </button>
+                            </li>
+                            <?php endif; ?>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <button type="button" class="dropdown-item text-danger"
@@ -124,6 +140,7 @@
 </div>
 
 <?= $this->include('services/_drawer') ?>
+<?= $this->include('partials/_translate_drawer') ?>
 
 </div><!-- end x-data="servicePage" -->
 
@@ -134,7 +151,14 @@
     window.ServicePageConfig = {
         baseUrl:    '<?= base_url('services') ?>',
         apiBaseUrl: '<?= base_url('api/v1/services') ?>',
+        locales: <?= json_encode(array_map(fn($l) => [
+            'code' => $l->code,
+            'name' => $l->name,
+        ], $secondaryLocales)) ?>,
+        translatableFields: ['name', 'description'],
+        translatableLabels: { name: 'Nombre', description: 'Descripcion' },
     };
 </script>
+<script src="<?= base_url('assets/js/components/translate-drawer.js') ?>"></script>
 <script src="<?= base_url('assets/js/components/service-page.js') ?>"></script>
 <?= $this->endSection() ?>

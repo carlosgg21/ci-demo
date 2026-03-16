@@ -11,7 +11,10 @@ class Locale extends Entity
 {
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
-    protected $casts   = [];
+    protected $casts   = [
+        'is_active'  => 'int',
+        'is_default' => 'int',
+    ];
 
     /**
      * Verificar si es idioma por defecto

@@ -34,8 +34,12 @@ class TestimonialModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
+    protected array $castHandlers = [
+        'safe-json' => \App\DataCaster\Cast\SafeJsonCast::class,
+    ];
+
     protected array $casts = [
-        'translations' => 'json',
+        'translations' => 'safe-json',
     ];
 
     protected $validationRules = [

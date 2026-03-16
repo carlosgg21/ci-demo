@@ -192,6 +192,32 @@ class ServiceController extends BaseController
     }
 
     /**
+     * Actualizar traducciones de un servicio
+     */
+    public function updateTranslations(int $id): ResponseInterface
+    {
+        try {
+            $service = $this->repository->getById($id);
+            if (!$service) {
+                throw new ResourceNotFoundException('Servicio no encontrado');
+            }
+
+            $data = $this->request->getJSON(true);
+            $translations = $data['translations'] ?? [];
+
+            $this->repository->update($id, ['translations' => json_encode($translations)]);
+
+            return $this->respond(
+                ApiResponse::success(['translations' => $translations], 200, 'Traducciones actualizadas')
+            );
+        } catch (ResourceNotFoundException $e) {
+            return $this->respond(ApiResponse::notFound($e->getMessage()), 404);
+        } catch (\Exception $e) {
+            return $this->respond(ApiResponse::error($e->getMessage(), 500), 500);
+        }
+    }
+
+    /**
      * Toggle estado de un servicio (is_active 1 <-> 0)
      */
     public function toggleStatus(int $id): ResponseInterface

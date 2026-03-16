@@ -3,29 +3,25 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
+use App\Traits\HasTranslations;
 
 /**
  * Entidad Service
  */
 class Service extends Entity
 {
+    use HasTranslations;
+
+    protected array $translatable = ['name', 'description'];
+
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [
-        'translations' => 'json',
+        // 'translations' cast handled by getTranslations() in HasTranslations trait
     ];
 
     /**
-     * Obtener traducción
-     */
-    public function getTranslation(string $locale, string $field): ?string
-    {
-        $translations = $this->translations ?? [];
-        return $translations[$locale][$field] ?? null;
-    }
-
-    /**
-     * Verificar si está activo
+     * Verificar si esta activo
      */
     public function isActive(): bool
     {

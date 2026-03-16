@@ -3,29 +3,25 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
+use App\Traits\HasTranslations;
 
 /**
  * Entidad Testimonial
  */
 class Testimonial extends Entity
 {
+    use HasTranslations;
+
+    protected array $translatable = ['client_name', 'client_position', 'content'];
+
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [
-        'translations' => 'json',
+        // 'translations' cast handled by getTranslations() in HasTranslations trait
     ];
 
     /**
-     * Obtener traducción
-     */
-    public function getTranslation(string $locale, string $field): ?string
-    {
-        $translations = $this->translations ?? [];
-        return $translations[$locale][$field] ?? null;
-    }
-
-    /**
-     * Verificar si está activo
+     * Verificar si esta activo
      */
     public function isActive(): bool
     {
@@ -33,7 +29,7 @@ class Testimonial extends Entity
     }
 
     /**
-     * Validar calificación
+     * Validar calificacion
      */
     public function hasRating(): bool
     {

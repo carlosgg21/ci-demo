@@ -18,8 +18,11 @@ class TestimonialController extends BaseController
     public function index(): string
     {
         return view('testimonials/index', [
-            'title' => 'Listado de Testimonios',
-            'items' => $this->repository->getAll(),
+            'title'      => 'Listado de Testimonios',
+            'pageTitle'  => 'Testimonios',
+            'breadcrumb' => ['Contenido' => null, 'Testimonios' => null],
+            'items'      => $this->repository->getAll(),
+            'secondaryLocales' => secondary_locales(),
         ]);
     }
 

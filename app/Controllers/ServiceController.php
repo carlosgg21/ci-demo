@@ -43,6 +43,7 @@ class ServiceController extends BaseController
             'breadcrumb' => ['Configuración' => null, 'Servicios' => null],
             'services'   => $this->repository->getAll(),
             'stats'      => $this->repository->getStats(),
+            'secondaryLocales' => secondary_locales(),
         ]);
     }
 

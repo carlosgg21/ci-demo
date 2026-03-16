@@ -1425,3 +1425,118 @@ body.sidebar-mini .sidebar-menu .submenu .flyout-header {
     border-color: var(--sidebar-active-color);
     color: #fff;
 }
+
+/* ===========================
+   TRANSLATION UI — Translate Drawer
+   =========================== */
+
+/* --- Reference card (default language values) --- */
+.trans-reference-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 0.75rem 0.85rem;
+}
+.trans-reference-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+.trans-reference-item {
+    margin-bottom: 0.35rem;
+}
+.trans-reference-item:last-child {
+    margin-bottom: 0;
+}
+.trans-reference-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 0.1rem;
+}
+.trans-reference-value {
+    display: block;
+    font-size: 0.82rem;
+    color: #334155;
+    word-break: break-word;
+}
+.trans-reference-value.empty {
+    color: #cbd5e1;
+    font-style: italic;
+}
+
+/* --- Language Tabs --- */
+.trans-tabs {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+.trans-tabs-nav {
+    display: flex;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0;
+    gap: 0;
+}
+.trans-tab-btn {
+    flex: 1;
+    padding: 0.55rem 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #64748b;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+}
+.trans-tab-btn:hover {
+    color: #334155;
+    background: #f1f5f9;
+}
+.trans-tab-btn.active {
+    color: var(--sidebar-active-color);
+    border-bottom-color: var(--sidebar-active-color);
+    background: #fff;
+}
+.trans-tab-btn .tab-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+.trans-tab-btn .tab-dot.complete { background: #22c55e; }
+.trans-tab-btn .tab-dot.partial  { background: #f59e0b; }
+.trans-tab-btn .tab-dot.empty    { background: #cbd5e1; }
+.trans-tab-panel {
+    padding: 0.85rem;
+    background: #fff;
+}
+.trans-tab-panel .form-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+}
+.trans-tab-panel .form-control {
+    font-size: 0.82rem;
+}
+
+/* Dark mode translations */
+[data-bs-theme="dark"] .trans-reference-card { background: #1e293b; border-color: #334155; }
+[data-bs-theme="dark"] .trans-reference-title { color: #64748b; }
+[data-bs-theme="dark"] .trans-reference-value { color: #e2e8f0; }
+[data-bs-theme="dark"] .trans-reference-value.empty { color: #475569; }
+
+[data-bs-theme="dark"] .trans-tabs { border-color: #334155; }
+[data-bs-theme="dark"] .trans-tabs-nav { background: #1e293b; border-color: #334155; }
+[data-bs-theme="dark"] .trans-tab-btn { color: #94a3b8; }
+[data-bs-theme="dark"] .trans-tab-btn:hover { color: #e2e8f0; background: #263045; }
+[data-bs-theme="dark"] .trans-tab-btn.active { background: #0f172a; color: var(--sidebar-active-color); }
+[data-bs-theme="dark"] .trans-tab-panel { background: #0f172a; }

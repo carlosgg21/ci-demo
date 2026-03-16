@@ -18,65 +18,50 @@ class LocaleController extends BaseController
     public function index(): string
     {
         return view('locales/index', [
-            'title' => 'Listado de Idiomas',
-            'items' => $this->repository->getAll(),
+            'title'      => 'Listado de Idiomas',
+            'pageTitle'  => 'Idiomas',
+            'breadcrumb' => ['Configuración' => null, 'Idiomas' => null],
+            'locales'    => $this->repository->getAll(),
+            'stats'      => $this->repository->getStats(),
         ]);
-    }
-
-    public function create(): string
-    {
-        return view('locales/create', ['title' => 'Crear Nuevo Idioma']);
     }
 
     public function store(): RedirectResponse
     {
         try {
-            $data = $this->request->getPost();
-            if (!$this->repository->getModel()->validate($data)) {
-                return redirect()->back()
-                               ->with('errors', $this->repository->getModel()->errors())
-                               ->withInput();
-            }
-            $this->repository->save($data);
+            $data = [
+                'company_id' => 1,
+                'code'       => $this->request->getPost('code'),
+                'name'       => $this->request->getPost('name'),
+                'is_default' => (int) $this->request->getPost('is_default'),
+                'is_active'  => (int) $this->request->getPost('is_active'),
+            ];
+
+            $this->repository->insert($data);
+
             return redirect()->to('locales')->with('success', 'Idioma creado exitosamente');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
     }
 
-    public function show(int $id): string
-    {
-        $item = $this->repository->getById($id);
-        if (!$item) {
-            throw new ResourceNotFoundException('Idioma no encontrado');
-        }
-        return view('locales/show', ['title' => 'Detalles del Idioma', 'item' => $item]);
-    }
-
-    public function edit(int $id): string
-    {
-        $item = $this->repository->getById($id);
-        if (!$item) {
-            throw new ResourceNotFoundException('Idioma no encontrado');
-        }
-        return view('locales/edit', ['title' => 'Editar Idioma', 'item' => $item]);
-    }
-
     public function update(int $id): RedirectResponse
     {
         try {
-            $item = $this->repository->getById($id);
-            if (!$item) {
+            if (!$this->repository->exists($id)) {
                 throw new ResourceNotFoundException('Idioma no encontrado');
             }
-            $data = $this->request->getPost();
-            if (!$this->repository->getModel()->validate($data)) {
-                return redirect()->back()
-                               ->with('errors', $this->repository->getModel()->errors())
-                               ->withInput();
-            }
+
+            $data = [
+                'code'       => $this->request->getPost('code'),
+                'name'       => $this->request->getPost('name'),
+                'is_default' => (int) $this->request->getPost('is_default'),
+                'is_active'  => (int) $this->request->getPost('is_active'),
+            ];
+
             $this->repository->update($id, $data);
-            return redirect()->to("locales/{$id}")->with('success', 'Idioma actualizado exitosamente');
+
+            return redirect()->to('locales')->with('success', 'Idioma actualizado exitosamente');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
@@ -88,7 +73,9 @@ class LocaleController extends BaseController
             if (!$this->repository->exists($id)) {
                 throw new ResourceNotFoundException('Idioma no encontrado');
             }
+
             $this->repository->delete($id);
+
             return redirect()->to('locales')->with('success', 'Idioma eliminado exitosamente');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

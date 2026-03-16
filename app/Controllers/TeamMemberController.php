@@ -18,8 +18,11 @@ class TeamMemberController extends BaseController
     public function index(): string
     {
         return view('team_members/index', [
-            'title' => 'Listado de Miembros',
-            'items' => $this->repository->getAll(),
+            'title'      => 'Listado de Equipo',
+            'pageTitle'  => 'Equipo',
+            'breadcrumb' => ['Contenido' => null, 'Equipo' => null],
+            'items'      => $this->repository->getAll(),
+            'secondaryLocales' => secondary_locales(),
         ]);
     }
 

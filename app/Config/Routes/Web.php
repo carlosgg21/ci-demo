@@ -7,8 +7,18 @@ use CodeIgniter\Router\RouteCollection;
  * Rutas Web - Controladores web para vistas
  */
 
+// Auth
+$routes->get('login',  'AuthController::login');
+$routes->post('login', 'AuthController::doLogin');
+$routes->get('logout', 'AuthController::logout');
+$routes->get('perfil', 'AuthController::profile',       ['filter' => 'auth']);
+$routes->post('perfil', 'AuthController::updateProfile', ['filter' => 'auth']);
+
 // Home
 $routes->get('/', 'Home::index');
+
+// Dashboard
+$routes->get('dashboard', 'DashboardController::index', ['filter' => 'auth']);
 
 // CRUD web resources para Landing CMS
 $routes->resource('services', ['controller' => 'ServiceController']);
