@@ -22,11 +22,7 @@ trait ValidationTrait
     public function validate(IncomingRequest $request, array $rules, array $messages = []): bool
     {
         $validator = \Config\Services::validation();
-        $validator->setRules($rules);
-
-        if (!empty($messages)) {
-            $validator->setCustomErrors($messages);
-        }
+        $validator->setRules($rules, $messages);
 
         if (!$validator->withRequest($request)->run()) {
             throw new ValidationException($validator->getErrors());

@@ -80,8 +80,7 @@ class StoreCurrencyRequest
     {
         $instance = new self();
         $validator = \Config\Services::validation();
-        $validator->setRules($instance->rules);
-        $validator->setCustomErrors($instance->messages);
+        $validator->setRules($instance->rules, $instance->messages);
 
         if (!$validator->withRequest($request)->run()) {
             throw new ValidationException($validator->getErrors());
@@ -108,7 +107,7 @@ class StoreCurrencyRequest
             'iso_numeric'   => $request->getPost('iso_numeric'),
             'internal_code' => $request->getPost('internal_code'),
             'flag'          => $request->getPost('flag'),
-            'status'        => $request->getPost('status', 'active'),
+            'status'        => $request->getPost('status') ?? 'active',
         ];
     }
 }

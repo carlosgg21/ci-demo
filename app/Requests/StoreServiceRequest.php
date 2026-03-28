@@ -89,8 +89,7 @@ class StoreServiceRequest
     {
         $instance = new self();
         $validator = \Config\Services::validation();
-        $validator->setRules($instance->rules);
-        $validator->setCustomErrors($instance->messages);
+        $validator->setRules($instance->rules, $instance->messages);
 
         if (!$validator->withRequest($request)->run()) {
             throw new ValidationException($validator->getErrors());

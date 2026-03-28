@@ -24,6 +24,42 @@ class LocalesSeeder extends Seeder
                 'is_default' => 0,
                 'is_active'  => 1,
             ],
+            [
+                'company_id' => 1,
+                'code'       => 'fr',
+                'name'       => 'French',
+                'is_default' => 0,
+                'is_active'  => 1,
+            ],
+              [
+                'company_id' => 1,
+                'code'       => 'de',
+                'name'       => 'German',
+                'is_default' => 0,
+                'is_active'  => 0,
+            ],
+            [
+                'company_id' => 1,
+                'code'       => 'zh',
+                'name'       => 'Chinese',
+                'is_default' => 0,
+                'is_active'  => 0,
+            ],
+                [
+                'company_id' => 1,
+                'code'       => 'ru',
+                'name'       => 'Russian',
+                'is_default' => 0,
+                'is_active'  => 0,
+            ],
+            [
+                'company_id' => 1,
+                'code'       => 'pt',
+                'name'       => 'Portuguese',
+                'is_default' => 0,
+                'is_active'  => 0,
+            ],
+
         ];
 
         $this->db->table('locales')->insertBatch($data);

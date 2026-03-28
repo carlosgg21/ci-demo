@@ -86,8 +86,7 @@ class UpdateCurrencyRequest
         $rules = unserialize($rules);
 
         $validator = \Config\Services::validation();
-        $validator->setRules($rules);
-        $validator->setCustomErrors($instance->messages);
+        $validator->setRules($rules, $instance->messages);
 
         if (!$validator->withRequest($request)->run()) {
             throw new ValidationException($validator->getErrors());
