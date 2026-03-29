@@ -20,6 +20,10 @@ class StoreServiceRequest
             'label' => 'Empresa',
             'rules' => 'required|numeric|is_not_unique[companies.id]'
         ],
+        'service_type_id' => [
+            'label' => 'Tipo de Servicio',
+            'rules' => 'permit_empty|numeric|is_not_unique[service_types.id]',
+        ],
         'name' => [
             'label' => 'Nombre',
             'rules' => 'required|min_length[2]|max_length[200]'
@@ -30,7 +34,7 @@ class StoreServiceRequest
         ],
         'description' => [
             'label' => 'Descripción',
-            'rules' => 'permit_empty|string'
+            'rules' => 'permit_empty'
         ],
         'image' => [
             'label' => 'Imagen',
@@ -38,7 +42,7 @@ class StoreServiceRequest
         ],
         'icon' => [
             'label' => 'Icono',
-            'rules' => 'permit_empty|string|max_length[100]'
+            'rules' => 'permit_empty|max_length[100]'
         ],
         'sort_order' => [
             'label' => 'Orden',
@@ -110,14 +114,15 @@ class StoreServiceRequest
         self::validate($request);
 
         return [
-            'company_id'  => $request->getPost('company_id'),
-            'name'        => $request->getPost('name'),
+            'company_id'      => $request->getPost('company_id'),
+            'service_type_id' => $request->getPost('service_type_id') ?: null,
+            'name'            => $request->getPost('name'),
             'slug'        => $request->getPost('slug'),
             'description' => $request->getPost('description'),
             'image'       => $request->getPost('image'),
             'icon'        => $request->getPost('icon'),
-            'sort_order'  => $request->getPost('sort_order', 0),
-            'is_active'   => $request->getPost('is_active', 1),
+            'sort_order'  => $request->getPost('sort_order') ?? 0,
+            'is_active'   => $request->getPost('is_active') ?? 1,
         ];
     }
 }

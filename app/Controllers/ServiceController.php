@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\ServiceRepository;
+use App\Repositories\ServiceTypeRepository;
 use App\Requests\StoreServiceRequest;
 use App\Requests\UpdateServiceRequest;
 use App\Exceptions\ResourceNotFoundException;
@@ -14,20 +15,13 @@ use CodeIgniter\HTTP\RedirectResponse;
  */
 class ServiceController extends BaseController
 {
-    /**
-     * Instancia del repositorio de servicios
-     *
-     * @var ServiceRepository
-     */
     protected ServiceRepository $repository;
+    protected ServiceTypeRepository $serviceTypeRepository;
 
-    /**
-     * Constructor
-     * Inicializa el repositorio
-     */
     public function __construct()
     {
         $this->repository = new ServiceRepository();
+        $this->serviceTypeRepository = new ServiceTypeRepository();
     }
 
     /**
@@ -41,8 +35,9 @@ class ServiceController extends BaseController
             'title'      => 'Listado de Servicios',
             'pageTitle'  => 'Servicios',
             'breadcrumb' => ['Configuración' => null, 'Servicios' => null],
-            'services'   => $this->repository->getAll(),
-            'stats'      => $this->repository->getStats(),
+            'services'     => $this->repository->getAll(),
+            'stats'        => $this->repository->getStats(),
+            'serviceTypes' => $this->serviceTypeRepository->getOptionsForDropdown(),
             'secondaryLocales' => secondary_locales(),
         ]);
     }

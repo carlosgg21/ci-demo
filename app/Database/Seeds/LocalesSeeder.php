@@ -8,7 +8,10 @@ class LocalesSeeder extends Seeder
 {
     public function run(): void
     {
-        // asume que la compañia de id 1 existe
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+        $this->db->table('locales')->truncate();
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
+
         $data = [
             [
                 'company_id' => 1,

@@ -41,6 +41,8 @@ class MainSeeder extends Seeder
         // Undécima: Envíos de contacto (depende de compañías)
         $this->call('ContactSubmissionsSeeder');
 
+        $this->call('ServiceTypeSeeder');
+
         $this->call('ServiceSeeder');
 
         $this->call('CurrencySeeder');

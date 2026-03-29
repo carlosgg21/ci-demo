@@ -96,6 +96,6 @@ if (!function_exists('secondary_locales')) {
     function secondary_locales(?int $companyId = null): array
     {
         $all = available_locales($companyId);
-        return array_filter($all, fn($locale) => !$locale->isDefault());
+        return array_values(array_filter($all, fn($locale) => !$locale->isDefault()));
     }
 }

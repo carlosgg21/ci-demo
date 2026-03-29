@@ -21,6 +21,7 @@ $routes->get('/', 'Home::index');
 $routes->get('dashboard', 'DashboardController::index', ['filter' => 'auth']);
 
 // CRUD web resources para Landing CMS
+$routes->resource('service-types', ['controller' => 'ServiceTypeController']);
 $routes->resource('services', ['controller' => 'ServiceController']);
 $routes->resource('currencies', ['controller' => 'CurrencyController']);
 $routes->resource('users', ['controller' => 'UserController']);

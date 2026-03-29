@@ -18,6 +18,7 @@ class ServiceModel extends Model
 
     protected $allowedFields = [
         'company_id',
+        'service_type_id',
         'slug',
         'name',
         'description',

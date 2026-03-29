@@ -11,6 +11,8 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
     // Versión 1 de la API
     $routes->group('v1', function($routes) {
         // Rutas RESTful para servicios
+        $routes->patch('service-types/(:num)/toggle-status', 'ServiceTypeController::toggleStatus/$1');
+        $routes->resource('service-types', ['controller' => 'ServiceTypeController']);
         $routes->patch('services/(:num)/toggle-status', 'ServiceController::toggleStatus/$1');
         $routes->patch('services/(:num)/translations', 'ServiceController::updateTranslations/$1');
         $routes->resource('services', ['controller' => 'ServiceController']);

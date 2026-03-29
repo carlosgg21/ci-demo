@@ -8,6 +8,10 @@ class CompaniesSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+        $this->db->table('companies')->truncate();
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
+
         $data = [
             'name'       => 'Demo Company',
             'slug'       => 'demo-company',

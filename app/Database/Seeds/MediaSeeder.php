@@ -8,6 +8,10 @@ class MediaSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+        $this->db->table('media')->truncate();
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
+
         $items = [
             [
                 'entity_type' => 'company',

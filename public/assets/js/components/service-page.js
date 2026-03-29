@@ -14,7 +14,7 @@ document.addEventListener('alpine:init', () => {
             statusField: 'is_active',
             entityName:  { singular: 'servicio', singularUpper: 'Servicio' },
             formDefaults: {
-                id: null, name: '', slug: '', description: '',
+                id: null, service_type_id: '', name: '', slug: '', description: '',
                 icon: '', image: '', sort_order: 0, is_active: 1,
             },
         }),

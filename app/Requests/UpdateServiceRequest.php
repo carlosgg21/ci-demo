@@ -16,6 +16,10 @@ class UpdateServiceRequest
      * @var array
      */
     protected array $rules = [
+        'service_type_id' => [
+            'label' => 'Tipo de Servicio',
+            'rules' => 'if_exist|permit_empty|numeric|is_not_unique[service_types.id]',
+        ],
         'name' => [
             'label' => 'Nombre',
             'rules' => 'if_exist|required|min_length[2]|max_length[200]'
@@ -26,7 +30,7 @@ class UpdateServiceRequest
         ],
         'description' => [
             'label' => 'Descripción',
-            'rules' => 'if_exist|permit_empty|string'
+            'rules' => 'if_exist|permit_empty'
         ],
         'image' => [
             'label' => 'Imagen',
@@ -34,7 +38,7 @@ class UpdateServiceRequest
         ],
         'icon' => [
             'label' => 'Icono',
-            'rules' => 'if_exist|permit_empty|string|max_length[100]'
+            'rules' => 'if_exist|permit_empty|max_length[100]'
         ],
         'sort_order' => [
             'label' => 'Orden',
@@ -109,6 +113,9 @@ class UpdateServiceRequest
 
         $data = [];
 
+        if ($request->getPost('service_type_id') !== null) {
+            $data['service_type_id'] = $request->getPost('service_type_id') ?: null;
+        }
         if ($request->getPost('name') !== null) {
             $data['name'] = $request->getPost('name');
         }

@@ -10,6 +10,15 @@
         <input type="hidden" name="_method" :value="mode === 'edit' ? 'PUT' : ''">
         <div class="drawer-body" x-ref="drawerBody">
             <div class="mb-3">
+                <label class="form-label">Tipo de Servicio</label>
+                <select name="service_type_id" class="form-select" x-model="form.service_type_id">
+                    <option value="">— Sin tipo —</option>
+                    <?php foreach ($serviceTypes ?? [] as $id => $denomination): ?>
+                        <option value="<?= $id ?>"><?= esc($denomination) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label class="form-label">Nombre <span class="text-danger">*</span></label>
                 <input type="text" name="name" class="form-control"
                        x-model="form.name" required>

@@ -95,14 +95,15 @@
                                 <button type="button" class="dropdown-item"
                                         @click="openEdit(JSON.parse($el.dataset.entity))"
                                         data-entity="<?= esc(json_encode([
-                                            'id'           => $service->id,
-                                            'name'         => $service->name,
-                                            'slug'         => $service->slug,
-                                            'description'  => $service->description,
-                                            'icon'         => $service->icon,
-                                            'image'        => $service->image,
-                                            'sort_order'   => $service->sort_order,
-                                            'is_active'    => $service->is_active,
+                                            'id'              => $service->id,
+                                            'service_type_id' => $service->service_type_id,
+                                            'name'            => $service->name,
+                                            'slug'            => $service->slug,
+                                            'description'     => $service->description,
+                                            'icon'            => $service->icon,
+                                            'image'           => $service->image,
+                                            'sort_order'      => $service->sort_order,
+                                            'is_active'       => $service->is_active,
                                         ]), 'attr') ?>">
                                     <i class="bi bi-pencil me-2 text-muted"></i>Editar
                                 </button>
