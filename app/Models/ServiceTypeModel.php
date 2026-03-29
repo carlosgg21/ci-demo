@@ -15,6 +15,7 @@ class ServiceTypeModel extends Model
 
     protected $allowedFields = [
         'denomination',
+        'slug',
         'description',
         'is_active',
     ];
@@ -31,6 +32,19 @@ class ServiceTypeModel extends Model
     protected $validationMessages = [];
     protected $skipValidation     = false;
     protected $cleanValidationRules = true;
+
+    protected $beforeInsert = ['generateSlug'];
+    protected $beforeUpdate = ['generateSlug'];
+
+    protected function generateSlug(array $data): array
+    {
+        if (isset($data['data']['denomination'])) {
+            helper('slug');
+            $data['data']['slug'] = generate_slug($data['data']['denomination']);
+        }
+
+        return $data;
+    }
 
     public function findActiveByDenomination(string $denomination): ?ServiceType
     {

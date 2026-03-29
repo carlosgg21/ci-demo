@@ -83,12 +83,13 @@
                             </li>
                             <li>
                                 <button type="button" class="dropdown-item"
-                                        @click="openEdit(<?= esc(json_encode([
+                                        @click="openEdit(JSON.parse($el.dataset.entity))"
+                                        data-entity="<?= esc(json_encode([
                                             'id'          => $type->id,
                                             'denomination'=> $type->denomination,
                                             'description' => $type->description,
                                             'is_active'   => $type->is_active,
-                                        ]), 'attr') ?>)">
+                                        ]), 'attr') ?>">
                                     <i class="bi bi-pencil me-2 text-muted"></i>Editar
                                 </button>
                             </li>

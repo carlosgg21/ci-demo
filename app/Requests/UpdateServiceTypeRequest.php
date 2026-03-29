@@ -38,8 +38,10 @@ class UpdateServiceTypeRequest
     {
         $instance = new self();
 
-        $rules = str_replace('{id}', $id, serialize($instance->rules));
-        $rules = unserialize($rules);
+        $rules = $instance->rules;
+        array_walk_recursive($rules, function (&$value) use ($id) {
+            $value = str_replace('{id}', $id, $value);
+        });
 
         $validator = \Config\Services::validation();
         $validator->setRules($rules, $instance->messages);

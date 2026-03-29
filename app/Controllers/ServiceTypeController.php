@@ -85,7 +85,7 @@ class ServiceTypeController extends BaseController
             $data = UpdateServiceTypeRequest::validated($this->request, $id);
             $this->repository->update($id, $data);
 
-            return redirect()->to("service-types/{$id}")
+            return redirect()->to('service-types')
                            ->with('success', 'Tipo de servicio actualizado exitosamente');
         } catch (\App\Exceptions\ValidationException $e) {
             return redirect()->back()

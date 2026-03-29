@@ -27,7 +27,7 @@
             <tr>
                 <th>#</th>
                 <th>Nombre</th>
-                <th>Slug</th>
+                <th>Tipo</th>
                 <th>Icono</th>
                 <th>Orden</th>
                 <th>Estado</th>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </td>
-                <td><span class="text-muted small"><?= esc($service->slug) ?></span></td>
+                <td><span class="text-muted small"><?= esc($serviceTypes[$service->service_type_id] ?? '—') ?></span></td>
                 <td>
                     <?php if ($service->icon): ?>
                         <i class="<?= esc($service->icon) ?>"></i>
@@ -73,7 +73,7 @@
                 </td>
                 <td><?= $service->sort_order ?></td>
                 <td>
-                    <span class="badge <?= $service->is_active ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' ?>"
+                    <span class="badge <?= $service->is_active ? 'text-success' : 'text-danger' ?>"
                           role="button" title="Clic para cambiar estado"
                           style="cursor:pointer;"
                           @click="toggleStatus(<?= $service->id ?>, $event)">

@@ -17,7 +17,16 @@ class ServiceTypeSeeder extends Seeder
         $data = [
             [
                 'denomination' => 'General',
+                'slug'         => 'general',
                 'description'  => 'Tipo de servicio por defecto',
+                'is_active'    => 1,
+                'created_at'   => $now,
+                'updated_at'   => $now,
+            ],
+              [
+                'denomination' => 'For Quote',
+                'slug'         => 'for-quote',
+                'description'  => 'Tipo de servicio para cotizaciones',
                 'is_active'    => 1,
                 'created_at'   => $now,
                 'updated_at'   => $now,
